@@ -4,7 +4,7 @@
 Contains bash script used to generate independent R scripts, and their respective bash submission scripts, for each sample. Output of bash scripts are located in the qsub directory
 
 ## qsub
-Contains the bash submission scripts and their independent R scripts for each sample. Jobs were submitted on a Unix cluster and performed in parallel. Outputs of each job were placed witin the output directory
+Contains the bash submission scripts and their independent R scripts for each sample. Jobs were submitted on a Unix cluster and performed in parallel. Outputs of each job were placed within the output directory
 
 ## output
 Contains RData objects for each sample analyzed. 
