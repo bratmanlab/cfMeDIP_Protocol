@@ -17,3 +17,6 @@ Number of fragments with specified CpG annotation (i.e. Island, Open Sea, Shelf,
 
 ### sample_output.RData
 Processed data used to calculate 'sample_obs_vs_exp.RData'. Columns include chromosome, start, end, and CpG annotation for each fragment.
+
+## R 
+Contains R scripts used to generate Figure 3d and Figure 4. Due to file size constraints, insert-size metrics of each sample is available upon request. PDF plots for Figure 4a and Figure 4b are also provided to show the expected output.
