@@ -7,7 +7,7 @@ library(Repitools)
 
 allmainchrs <- paste("chr",1:22,sep="")
 
-normal_cfmedip_sample_17_gr <- GRanges(readGAlignmentPairs("/cluster/projects/scottgroup/questionable_people/justin/Projects/OSCC_MeDIP/output/HNC_vs_Norm_pilot/cfDNA/bam_files/bwamem/rmdup/4147_Norm_S16_L008_rmdup.bam"))
+normal_cfmedip_sample_17_gr <- GRanges(readGAlignmentPairs("~/bam_directory/file.bam"))
 normal_cfmedip_sample_17_gr <- normal_cfmedip_sample_17_gr[seqnames(normal_cfmedip_sample_17_gr) %in% allmainchrs]
 normal_cfmedip_sample_17_widths <- width(normal_cfmedip_sample_17_gr)
 normal_cfmedip_sample_17_widths <- table(normal_cfmedip_sample_17_widths)
@@ -18,14 +18,14 @@ normal_cfmedip_sample_17_mode_gr <- normal_cfmedip_sample_17_gr[width(normal_cfm
 normal_cfmedip_sample_17_mode_gr$CpG_count <- cpgDensityCalc(normal_cfmedip_sample_17_mode_gr, Hsapiens)
 
 normal_cfmedip_sample_17_mode_gr_cpgprop <- table(normal_cfmedip_sample_17_mode_gr$CpG_count) / sum(table(normal_cfmedip_sample_17_mode_gr$CpG_count))
-save(normal_cfmedip_sample_17_mode_gr_cpgprop, file="/cluster/projects/scottgroup/questionable_people/justin/Projects/cfMeDIP_Protocol/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_gr_cpgprop.RData")
+save(normal_cfmedip_sample_17_mode_gr_cpgprop, file="~/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_gr_cpgprop.RData")
 
 normal_cfmedip_sample_17_mode_gr$ID <- paste(seqnames(normal_cfmedip_sample_17_mode_gr), start(normal_cfmedip_sample_17_mode_gr), end(normal_cfmedip_sample_17_mode_gr), sep=".")
 normal_cfmedip_sample_17_mode_df <- as.data.frame(normal_cfmedip_sample_17_mode_gr)
 normal_cfmedip_sample_17_mode_df <- Epigenome.hg19(normal_cfmedip_sample_17_mode_df, is.CpG=T)
 normal_cfmedip_sample_17_mode_df_output <- normal_cfmedip_sample_17_mode_df[,c('seqnames','start','end','cgi')]
 colnames(normal_cfmedip_sample_17_mode_df_output) <- c('chr','start','end','cpg_annot')
-save(normal_cfmedip_sample_17_mode_df_output, file="/cluster/projects/scottgroup/questionable_people/justin/Projects/cfMeDIP_Protocol/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_df_R.RData")
+save(normal_cfmedip_sample_17_mode_df_output, file="~/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_df_R.RData")
 
 chr_allmainchrs_167 <- genomeBlocks(seqlengths(Hsapiens)[allmainchrs],width=normal_cfmedip_sample_17_mode)
 
@@ -39,4 +39,4 @@ chr_allmainchrs_df_167_output <- chr_allmainchrs_df_167[,c('seqnames','start','e
 colnames(chr_allmainchrs_df_167_output) <- c('chr','start','end','cpg_annot')
 
 normal_cfmedip_sample_17_mode_df_obsvsexp <- table(normal_cfmedip_sample_17_mode_df_output$cpg_annot) / table(chr_allmainchrs_df_167_output$cpg_annot)
-save(normal_cfmedip_sample_17_mode_df_obsvsexp, file="/cluster/projects/scottgroup/questionable_people/justin/Projects/cfMeDIP_Protocol/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_df_obsvsexp.RData")
+save(normal_cfmedip_sample_17_mode_df_obsvsexp, file="~/output/normal_cfmedip_sample_17/normal_cfmedip_sample_17_mode_df_obsvsexp.RData")
