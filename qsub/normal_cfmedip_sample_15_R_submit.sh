@@ -4,4 +4,4 @@
 
 module load R
 
-R CMD BATCH ~/qsub/R_files/normal_cfmedip_sample_15_figure.R _~/qsub/R_files/normal_cfmedip_sample_15_figure.Rout
+R CMD BATCH ~/qsub/R_files/normal_cfmedip_sample_15_figure.R ~/qsub/R_files/normal_cfmedip_sample_15_figure.Rout
