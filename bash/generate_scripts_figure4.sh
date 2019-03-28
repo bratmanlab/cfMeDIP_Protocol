@@ -42,7 +42,7 @@ mkdir $R_dir
 ## LIST EACH SAMPLE ##
 ######################
 
-for i in $bam_dir/*Norm*.bam 
+for i in $bam_dir 
 do
 
 identifier=$(echo normal_cfmedip_sample_$count) # i.e. normal_cfmedip_sample_1
