@@ -1,4 +1,9 @@
-# cfMeDIP_Protocol
+# cfMeDIP-seq Protocol
+In-depth protocol for cfMeDIP-seq library prepartion, QC, and bioinformatic analysis.
+
+The code within the bratmanlab/cfMeDIP_Protocol repository is used to demonstrate the insert-size distribution, CpG enrichment, and mapping annotation of reads from representative cfMeDIP-seq libraries. This code uses proccessed data from BAM files (FASTQ to SAM by bwa-mem, SAM to BAM by samtools), requiring bash programming and pre-installed software. Access to a high-performance computing cluster is also recommended. Due to privacy concerns, the BAM files used are not available due to privacy concerns, however the script used to generate the processed .RData files in subsequent analysis is provided (generate_scripts_figure4.sh).
+
+The output from the "generate_scripts_figure4.sh" script produces directories for each sample (within the directory qsub) with respective R scripts. The resulting .RData files generated for each sample were used to generatae the plots in Figure 3d and Figure 4. Due to file size constraints, insert-size metrics of each sample can be available upon request. PDF plots for Figure 4a and Figure 4b are also provided to show the expect output (assuming the same seed is set). 
 
 ## bash
 Contains bash script used to generate independent R scripts, and their respective bash submission scripts, for each sample. Output of bash scripts are located in the qsub directory
