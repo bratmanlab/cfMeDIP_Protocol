@@ -1,27 +1,47 @@
 # cfMeDIP-seq Protocol
+*Author: Justin M. Burgener*
+
 In-depth protocol for cfMeDIP-seq library prepartion, QC, and bioinformatic analysis.
 
 The code within the bratmanlab/cfMeDIP_Protocol repository is used to demonstrate the insert-size distribution, CpG enrichment, and mapping annotation of reads from representative cfMeDIP-seq libraries. This code uses proccessed data from BAM files (FASTQ to SAM by bwa-mem, SAM to BAM by samtools), requiring bash programming and pre-installed software. Access to a high-performance computing cluster is also recommended. Due to privacy concerns, the BAM files used are not available due to privacy concerns, however the script used to generate the processed .RData files in subsequent analysis is provided (generate_scripts_figure4.sh).
 
-The output from the "generate_scripts_figure4.sh" script produces directories for each sample (within the directory qsub) with respective R scripts. The resulting .RData files generated for each sample were used to generatae the plots in Figure 3d and Figure 4. Due to file size constraints, insert-size metrics of each sample can be available upon request. PDF plots for Figure 4a and Figure 4b are also provided to show the expect output (assuming the same seed is set). 
+The output from the "generate_scripts_figure4.sh" script produces directories for each sample (within the directory qsub) with respective R scripts. The resulting .RData files generated for each sample were used to generatae the plots in Figure 3d and Figure 4. Due to file size constraints, insert-size metrics of each sample can be available upon request. PDF plots for Figure 4a and Figure 4b are also provided to show the expected output (assuming the same seed is set).
 
-## bash
-Contains bash script used to generate independent R scripts, and their respective bash submission scripts, for each sample. Output of bash scripts are located in the qsub directory
-
-## qsub
-Contains the bash submission scripts and their independent R scripts for each sample. Jobs were submitted on a Unix cluster and performed in parallel. Outputs of each job were placed within the output directory
-
-## output
-Contains RData objects for each sample analyzed. 
-
-### sample_cpgprop.RData
-Proportion of n CpGs [0 - 20] within each 167 bp fragment.
-
-### sample_obs_vs_exp.RData
-Number of fragments with specified CpG annotation (i.e. Island, Open Sea, Shelf, Shore) over the expected number of CpG annotations based on random 167 bp genome-wide windows.
-
-### sample_output.RData
-Processed data used to calculate 'sample_obs_vs_exp.RData'. Columns include chromosome, start, end, and CpG annotation for each fragment.
-
-## R 
-Contains R scripts used to generate Figure 3d and Figure 4. Due to file size constraints, insert-size metrics of each sample is available upon request. PDF plots for Figure 4a and Figure 4b are also provided to show the expected output.
+Below are the steps described to generate the plots shown (**NOTE: All scripts should be run in your project directory**):
+  1. Align FASTQ files to reference genome (bwa/0.7.15, igenome-human/hg19)
+     ```bash
+     bwa mem -M -t4 $BWAINDEX $R1.fastq $R2.fastq > $file.sam
+     ```
+  2. Convert SAM file to BAM file (samtools/1.3.1)
+     ```bash 
+     samtools view -buS -f 2 -F 4 $file.sam | samtools sort -@4 -o $file.bam
+     samtools index $file.bam
+     ```
+  3. Remove duplicates
+     ```bash
+     samtools rmdup $file.bam $bam_directory/$rmdup_file.bam
+     samtools index $bam_directory/$rmdup_file.bam
+     ```
+  4. Create R scripts with generate_scripts_figure4.sh (R/3.5) (**NOTE: The output of this script will generate a qsub directory containing all of the R submission scripts and .R code [cfmedip_sample_n_figure.R]**)
+     ```bash
+     sh generate_scripts_figure4.sh $bam_directory $project_directory
+     ```
+  5. Generate QC metrics from each sample
+     ```bash
+     cd $project_directory/$qsub
+     for i in *.sh
+     do
+     qsub $i
+     done
+     ```
+  6. Performed grouped analysis of QC metrics from samples for Figure 4.
+     ```bash
+     R CMD BATCH Figure_4.R Figure_4.Rout
+     ```
+  7. From a representative sample, determine insert-size distribution of reads for Figure 3d. (**NOTE: Because bwa-mem removes reads outside of a specified interquartile range, bowtie2 (bowtie2/2.2.6) was also used to align the same sample, keeping reads with insert-sizes ranging from 50 to 750 bp**)
+     ```
+     cat file.bam | awk '$9 > 0 {print $9}' > file_insertmetrics.txt # repeat for bam files aligned with bowtie2
+     
+     R CMD BATCH Figure_3d.R Figure_3d.Rout
+     ```
+For further clarification of the bioinformatic analysis, please e-mail Justin Burgener at justin.burgener@uhnresearch.ca
