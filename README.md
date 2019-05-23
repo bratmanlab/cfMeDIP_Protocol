@@ -12,7 +12,7 @@ The output from the "generate_scripts_figure4.sh" script produces directories fo
 Below are the steps described to generate the plots shown (**NOTE: All scripts should be run in your project directory**):
 
 ## *Requirements:*
-  * Computer running a Linux system (≥ 8 GB RAM)
+  * Computer running a Linux system (≥ 8 GB RAM) **Cluster computing is HIGHLY recommended when working with FASTQ/BAM files**
     * Modules: bwa (version 0.7.15), bowtie2 (version 2.2.6), samtools (version 1.3.1), igenome-human/hg19
   * R/RStudio (version 3.5 or greater)
     * Packages: BSgenome.hsapiens.UCSC.hg19, GenomicRanges, AnnotationHub, Repitools
