@@ -3,11 +3,22 @@
 
 In-depth protocol for cfMeDIP-seq library prepartion, QC, and bioinformatic analysis.
 
+## *About*
+
 The code within the bratmanlab/cfMeDIP_Protocol repository is used to demonstrate the insert-size distribution, CpG enrichment, and mapping annotation of reads from representative cfMeDIP-seq libraries. This code uses proccessed data from BAM files (FASTQ to SAM by bwa-mem, SAM to BAM by samtools), requiring bash programming and pre-installed software. Access to a high-performance computing cluster is also recommended. Due to privacy concerns, the BAM files used are not available, however the script used to generate the processed .RData files in subsequent analysis is provided (generate_scripts_figure4.sh).
 
 The output from the "generate_scripts_figure4.sh" script produces directories for each sample (within the directory qsub) with respective R scripts. The resulting .RData files generated for each sample are used to generatae the plots in Figure 4. PDF plots for Figure 4a and Figure 4b are also provided to show the expected output (assuming the same seed is set).
 
 Below are the steps described to generate the plots shown (**NOTE: All scripts should be run in your project directory**):
+
+## *Requirements:*
+  * Computer running a Linux system (≥ 8 GB RAM)
+    * Modules: bwa (version 0.7.15), bowtie2 (version 2.2.6), samtools (version 1.3.1), igenome-human/hg19
+  * R/RStudio (version 3.5 or greater)
+    * Packages: BSgenome.hsapiens.UCSC.hg19, GenomicRanges, AnnotationHub, Repitools
+
+## *Procedure:*
+
   1. Align FASTQ files to reference genome (bwa/0.7.15, igenome-human/hg19)
      ```bash
      bwa mem -M -t4 $BWAINDEX $R1.fastq $R2.fastq > $file.sam
